@@ -13,6 +13,7 @@ $ yarn install
 ```bash
 # execute build postgres image
 $ docker compose up -d
+```
 
 ## Running the app
 
