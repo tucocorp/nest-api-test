@@ -15,12 +15,34 @@ $ yarn install
 $ docker compose up -d
 ```
 
+## Add enviroments variables
+
+```bash
+# create a .env file on project folder path
+$ touch .env
+
+# open .env
+$ nano .env
+
+# copy & paste secrets vars on .env file
+  DB_TYPE=postgres
+  DB_HOST=localhost
+  DB_POST=5436
+  DB_USERNAME=postgres
+  DB_PASSWORD=postgres
+  DB_NAME=db_crud
+  AGRANIMO_URL_BASE="https://public-staging.agranimo.com"
+  AGRANIMO_USERNAME="software@arbolitics.com"
+  AGRANIMO_PASSWORD="123arbolitics123"
+```
+
 ## Running the app
 
 ```bash
 # development
-$ yarn run start
+$ yarn start:dev
+```
 
-# watch mode
-$ yarn run start:dev
+```bash
+# Excelent!!! we are ready to test the API.
 ```
