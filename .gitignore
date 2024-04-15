@@ -13,6 +13,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+readmefake
+
 # OS
 .DS_Store
 

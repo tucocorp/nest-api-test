@@ -1,16 +1,14 @@
 import { Global, Module } from '@nestjs/common';
-import { HttpCustomService } from './http/http.service';
-import { HttpModule } from '@nestjs/axios';
+import { HttpModule, HttpService } from '@nestjs/axios';
+import { HttpCustomService } from './http/http.custom.service';
 import { AgranimoService } from './agranimo/agranimo.service';
 import { AgranimoController } from './agranimo/agranimo.controller';
-import { ZonesModule } from 'src/zones/zones.module';
-import { ZonesService } from 'src/zones/zones.service';
 
 @Global()
 @Module({
-  imports: [HttpModule, ZonesModule],
+  imports: [HttpModule],
+  providers: [HttpCustomService, AgranimoService],
   controllers: [AgranimoController],
-  providers: [HttpCustomService, AgranimoService]
-  // providers: [HttpCustomService, AgranimoService, ZonesService]
+  exports: [AgranimoService]
 })
 export class ProvidersModule {}

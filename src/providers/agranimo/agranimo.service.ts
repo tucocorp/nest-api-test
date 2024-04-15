@@ -1,25 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { HttpCustomService } from 'src/providers/http/http.service';
-
-
-import { ZonesService } from 'src/zones/zones.service';
-// import { CreateZoneDto } from 'src/zones/dto/create-zone.dto';
-// import { Zone } from 'src/zones/entities/zone.entity';
-// import { Repository } from 'typeorm';
+import { HttpCustomService } from 'src/providers/http/http.custom.service';
 
 @Injectable()
 export class AgranimoService {
-    constructor(
-        private readonly httpCustomService: HttpCustomService,
-        // private zoneService: ZonesService,
-        // private readonly zoneRepository: Repository<Zone>,
-    ){ }
+    constructor(private readonly httpCustomService: HttpCustomService){ }
 
-    private readonly baseUrl = "https://public-staging.agranimo.com"
+    private readonly baseUrl = process.env.AGRANIMO_URL_BASE
     private readonly credentials = {
-      "username": "software@arbolitics.com",
-      "password": "123arbolitics123"
-    }
+        "username": process.env.AGRANIMO_USERNAME,
+        "password": process.env.AGRANIMO_PASSWORD
+    };
 
     public login(){
         const response = this.httpCustomService.post(this.baseUrl + "/auth/login", this.credentials)
@@ -28,13 +18,6 @@ export class AgranimoService {
 
     public async getZones(){
         const login = await this.login()
-        // const zones = await this.httpCustomService.get(this.baseUrl + "/zone/", {}, login.accessToken)
-
-        // zones.forEach(function(zone){
-        //     console.log(zone.id);
-        //     this.zoneService.create(zone)
-        //   });
-        // return zones
         return this.httpCustomService.get(this.baseUrl + "/zone/", {}, login.accessToken)
     }
 
@@ -47,6 +30,5 @@ export class AgranimoService {
     public async getSoilMoisture(zone_id: string, dateStart: number, dateEnd: number){
         const login = await this.login()
         return this.httpCustomService.get(this.baseUrl + "/zone/" + zone_id + "/data/soilmoisture?dateStart=" + dateStart + "&dateEnd=" + dateEnd + "&type=WaterContent" , {}, login.accessToken)
-
     }
 }

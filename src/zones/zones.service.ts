@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateZoneDto } from './dto/create-zone.dto';
-import { UpdateZoneDto } from './dto/update-zone.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Zone } from './entities/zone.entity';
 import { Repository } from 'typeorm';
-// import { HttpCustomService } from 'src/providers/http/http.service';
 import { AgranimoService } from 'src/providers/agranimo/agranimo.service';
 
 @Injectable()
@@ -13,17 +10,24 @@ export class ZonesService {
   constructor(
     @InjectRepository(Zone)
     private readonly zoneRepository: Repository<Zone>,
-    // private readonly agranimoService: AgranimoService
+    private readonly agranimoService: AgranimoService
   ) { }
 
-  async create(createZoneDto: CreateZoneDto) {
-    try{
-      const zone = this.zoneRepository.create(createZoneDto);
-      await this.zoneRepository.save(zone);
+  // Get zones from Agranimo API
+  async createBatch() {
+    const data = await this.agranimoService.getZones();
+
+    const batch_zones = await data.map(e => {
+      const zone = this.zoneRepository.create(e);
+      zone['external_id'] = zone['id']
+      zone['id'] = null
+
       return zone;
-    }catch(error){
-      console.log(error);
-    }
+    });
+
+    await this.zoneRepository.save(batch_zones);
+
+    return "OK";
   }
 
   async findAll() {
@@ -32,25 +36,8 @@ export class ZonesService {
 
   async findOne(id: number) {
     console.log(id)
-    return await this.zoneRepository.findOneBy({ id });
+    const zone = await this.zoneRepository.findOneBy({ id });
+
+    return zone
   }
-
-  async update(id: number, updateZoneDto: UpdateZoneDto) {
-    return await this.zoneRepository.update(id, updateZoneDto);
-  }
-
-  async remove(id: number) {
-    return await this.zoneRepository.softDelete(id);
-  }
-
-
-
-
-  // async login(){
-  //   return await this.agranimoService.login()
-  // }
-
-  // async getZones(){
-  //   return await this.agranimoService.getZones()
-  // }
 }
