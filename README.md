@@ -18,7 +18,7 @@ $ docker compose up -d
 ## Add enviroments variables
 
 ```bash
-# create a .env file on project folder path
+# create a .env file on project root path
 $ touch .env
 
 # open .env
@@ -44,5 +44,5 @@ $ yarn start:dev
 ```
 
 ```bash
-# Excelent!!! we are ready to test the API.
+Excelent!!! we are ready to test the API.
 ```

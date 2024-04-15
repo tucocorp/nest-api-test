@@ -27,7 +27,7 @@ export class ZonesService {
 
     await this.zoneRepository.save(batch_zones);
 
-    return "OK";
+    return batch_zones;
   }
 
   async findAll() {
@@ -35,9 +35,6 @@ export class ZonesService {
   }
 
   async findOne(id: number) {
-    console.log(id)
-    const zone = await this.zoneRepository.findOneBy({ id });
-
-    return zone
+    return await this.zoneRepository.findOneBy({ id });
   }
 }

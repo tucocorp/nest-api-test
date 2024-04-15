@@ -17,7 +17,6 @@ export class SoilmoisturesService {
 
   // Get soilmoistures from Agranimo API
   async createBatch(zoneId: number, dateStart: number, dateEnd: number) {
-    console.log(zoneId)
     const zone = await this.zoneService.findOne(zoneId)
     const data = await this.agranimoService.getSoilMoisture(zone['external_id'], dateStart, dateEnd)
 
@@ -30,13 +29,16 @@ export class SoilmoisturesService {
 
     await this.soilmoisturesRepository.save(batch_climates);
 
-    return "OK";
+    return { sucess: true };
   }
 
   // Find soilmoistures by zoneId, dateStart & dateEnd
   async findBy(zoneId: number, dateStart: number, dateEnd: number) {
     const soilmoistures = await this.soilmoisturesRepository.find({
-      where: { zone: zoneId }
+      where: { zone: zoneId },
+      order: {
+        TMS: "ASC"
+      }
     });
 
     return soilmoistures.sort();

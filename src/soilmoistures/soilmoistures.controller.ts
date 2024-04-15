@@ -12,6 +12,7 @@ export class SoilmoisturesController {
 
   @Get('/loadData')
   loadData(@Query('zone_id') zoneId: number, @Query('date_start') dateStart: number, @Query('date_end') dateEnd: number) {
+
     return this.soilmoisturesService.createBatch(zoneId, dateStart, dateEnd);
   }
 }

@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Climate } from './entities/climate.entity';
-import { CreateClimateDto } from './dto/create-climate.dto';
-import { UpdateClimateDto } from './dto/update-climate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AgranimoService } from 'src/providers/agranimo/agranimo.service';
 import { ZonesService } from 'src/zones/zones.service';
 
@@ -15,12 +13,10 @@ export class ClimatesService {
     private readonly climateRepository: Repository<Climate>,
     private readonly agranimoService: AgranimoService,
     private readonly zoneService: ZonesService,
-
   ) { }
 
   // Get climates from Agranimo API
   async createBatch(zoneId: number, dateStart: number, dateEnd: number) {
-    console.log(zoneId)
     const zone = await this.zoneService.findOne(zoneId)
     const data = await this.agranimoService.getClimate(zone['external_id'], dateStart, dateEnd)
 
@@ -33,7 +29,7 @@ export class ClimatesService {
 
     await this.climateRepository.save(batch_climates);
 
-    return "OK";
+    return { sucess: true };
   }
 
   // Find climates by zoneId, dateStart & dateEnd

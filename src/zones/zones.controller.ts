@@ -17,4 +17,9 @@ export class ZonesController {
   loadData() {
     return this.zonesService.createBatch();
   }
+
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.zonesService.findOne(id);
+  }
 }

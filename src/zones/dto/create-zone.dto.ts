@@ -1,4 +1,6 @@
+import { Expose, Type } from "class-transformer";
 import { IsString, IsBoolean, IsOptional } from "class-validator";
+import { CreateClimateDto } from "src/climates/dto/create-climate.dto";
 
 export class CreateZoneDto {
     @IsBoolean()
@@ -35,4 +37,8 @@ export class CreateZoneDto {
     @IsString()
     @IsOptional()
     location: string;
+
+    @Type(() => CreateClimateDto)
+    @Expose()
+    climates: CreateClimateDto
 }
