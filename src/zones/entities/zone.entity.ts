@@ -16,7 +16,7 @@ export class Zone {
     @Column()
     name: string;
 
-    @Column()
+    @Column({ default: null })
     code: string;
 
     @Column({ default: null })

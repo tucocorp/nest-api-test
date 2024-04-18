@@ -45,7 +45,7 @@ export class Climate {
     @ManyToOne(() => Zone, (zone) => zone.id, {
         eager: true
     })
-    zone: number;
+    zone: Zone;
 
     @DeleteDateColumn()
     deletedAt: Date;

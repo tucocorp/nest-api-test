@@ -35,7 +35,11 @@ export class ClimatesService {
   // Find climates by zoneId, dateStart & dateEnd
   async findBy(zoneId: number, dateStart: number, dateEnd: number) {
     const climates = await this.climateRepository.find({
-      where: { zone: zoneId },
+      where: {
+        zone: {
+          id: zoneId
+        },
+      },
       order: {
         TMS: "ASC"
       }

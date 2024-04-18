@@ -35,7 +35,11 @@ export class SoilmoisturesService {
   // Find soilmoistures by zoneId, dateStart & dateEnd
   async findBy(zoneId: number, dateStart: number, dateEnd: number) {
     const soilmoistures = await this.soilmoisturesRepository.find({
-      where: { zone: zoneId },
+      where: {
+        zone: {
+          id: zoneId
+        },
+      },
       order: {
         TMS: "ASC"
       }
